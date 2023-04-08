@@ -16,7 +16,7 @@ Python-pptx library
 1- Clone the repository:
 
 ```sh
-git clone https://github.com/yourusername/python-pptx-odoo-upgrade-hands-on.git
+git clone https://github.com/machanic16/PowerPoint-automation/tree/main
 ```
 2- Install the required Python packages:
 
