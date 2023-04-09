@@ -37,12 +37,18 @@ This will create a file named Odoo_Database_Upgrade_Process.pptx in the current 
 ## Learning Objectives
 The main focus of this project is to learn and practice the following aspects of the Python-pptx library:
 
-1- Installing the Python-pptx library
+1- Installing the Python-pptx library.
+
 2-Creating a new PowerPoint presentation using Python
+
 3- Adding different types of slides
+
 4- Adding titles and content to slides
+
 5- Formatting slide layouts and placeholders
+
 6- Saving the presentation to a file
+
 By working with this hands-on project, users will gain a better understanding of how to use the Python-pptx library for their own PowerPoint automation needs.
 
 ## Contributing
