@@ -2,12 +2,12 @@ from pptx import Presentation
 from datetime import datetime
 import pandas as pd
 
-team_competency = pd.read_csv('team_competencies.csv', sep = ";")
+team_competency = pd.read_csv('team_competencies_v1.xlsx', sep = ";")
 
 # Documentacja: https://python-pptx.readthedocs.io/_/downloads/en/stable/pdf/
 
 # Open pptx and explore
-prs = Presentation('Draftv0.pptx')
+prs = Presentation('Facebookv1.pptx')
 
 slide5 = prs.slides[5]
 
