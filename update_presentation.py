@@ -4,64 +4,64 @@ import settings
 from update_facebook import get_data
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 import pptx
-
+from duplicate import duplicate_slide
 ## Get data
 team_competency = get_data(settings.INPUT_EXCEL)
 
-
 ## Open pptx and explore
 prs = Presentation('Facebookv1.pptx')
-
-slide5 = prs.slides[5]
-
-## Explore text and types in all shapes
-i = 0
-for shape in slide5.shapes:
-    print(i)
-    print(shape.shape_type)
-    if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
-        print(i)
-    if not shape.has_text_frame:
-        continue
-    print(shape.text)
-    i +=1
-Slide5 = {
-    0: "empty",
-    1: "Education",
-    2: "Professional Interest",
-    3: "Delivery Org 1",
-    4: "Position",
-    5: "Experience",
-    6: "_professional_competencies",
-    7: "Name+Initials"
-}
 
 ## Replace the picture from shape = 1 to "images/dev.jpg"
 img_path = "images/dev.jpg"
 img2 = pptx.parts.image.Image.from_file(img_path)
 
+
+## CREATE X slides
+
+n = len(team_competency.index)
+prs = duplicate_slide(pres=prs, index=5)
+# Iterate change image and adding the data
+slide5 = prs.slides[5]
+
 # what image you're actually changing...
 img_shape = slide5.shapes[1]
 
-# get part and rId from shape we need to change
-slide_part, rId = img_shape.part, img_shape._element.blip_rId
-image_part = slide_part.related_part(rId)
+def change_image(old_image_shape, new_image):
+    """Change the image for the shape image
 
-# overwrite old blob info with new blob info
-image_part.blob = img2._blob
+    :param old_image_shape: Default template image
+    :param new_image: Desired image
+    :return: _description_
+    """
+    # get part and rId from shape we need to change
+    slide_part, rId = old_image_shape.part, old_image_shape._element.blip_rId
+    image_part = slide_part.related_part(rId)
 
-## Replace the text values with the ones from excel and bold them
-slide5.shapes[6].text = str(team_competency['Education'][1])
-slide5.shapes[7].text = str(team_competency['Professional Interest'][1])
-slide5.shapes[8].text = str(team_competency['Delivery Org 1'][1])
-slide5.shapes[9].text = str(team_competency['Position'][1])
-slide5.shapes[9].text_frame.paragraphs[0].font.bold = True
-slide5.shapes[10].text = str(team_competency['Experience'][1])
-slide5.shapes[11].text = str(team_competency['_professional_competencies'][1])
-slide5.shapes[12].text = str(f"{team_competency['Name'][1]} ({team_competency['Initials'][1]})")
-slide5.shapes[12].text_frame.paragraphs[0].font.bold = True
+    # overwrite old blob info with new blob info
+    image_part.blob = new_image._blob
+    return old_image_shape
+    
+img_shape = change_image(old_image_shape=img_shape, new_image=img2)
 
 
+def set_data_to_slide(slide, team_competency, slide_num: int):
+    """Set the data from csv row to pptx slide.
+
+    :param slide: _description_
+    :param team_competency: _description_
+    """
+    slide.shapes[6].text = str(team_competency['Education'][slide_num])
+    slide.shapes[7].text = str(team_competency['Professional Interest'][slide_num])
+    slide.shapes[8].text = str(team_competency['Delivery Org 1'][slide_num])
+    slide.shapes[9].text = str(team_competency['Position'][slide_num])
+    slide.shapes[9].text_frame.paragraphs[0].font.bold = True
+    slide.shapes[10].text = str(team_competency['Experience'][slide_num])
+    slide.shapes[11].text = str(team_competency['_professional_competencies'][slide_num])
+    slide.shapes[12].text = str(f"{team_competency['Name'][slide_num]} ({team_competency['Initials'][slide_num]})")
+    slide.shapes[12].text_frame.paragraphs[0].font.bold = True
+    return slide
+
+slide5 = set_data_to_slide(slide=slide5, team_competency=team_competency, slide_num=1)
 
 ts = datetime.now()
 
