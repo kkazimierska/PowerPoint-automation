@@ -13,13 +13,13 @@ def duplicate_slide(pres, index):
         newel = copy.deepcopy(el)
         copied_slide.shapes._spTree.insert_element_before(newel, 'p:extLst')
 
-    for _, value in six.iteritems(template.part.rels):
-        # Make sure we don't copy a notesSlide relation as that won't exist
-        if "notesSlide" not in value.reltype:
-            copied_slide.part.rels.add_relationship(
-                value.reltype,
-                value._target,
-                value.rId
-            )
+    # for _, value in six.iteritems(template.part.rels):
+    #     # Make sure we don't copy a notesSlide relation as that won't exist
+    #     if "notesSlide" not in value.reltype:
+    #         copied_slide.part.rels.add_relationship(
+    #             value.reltype,
+    #             value._target,
+    #             value.rId
+    #         )
 
     return pres

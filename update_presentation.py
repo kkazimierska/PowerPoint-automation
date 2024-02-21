@@ -5,6 +5,12 @@ from update_facebook import get_data
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 import pptx
 from duplicate import duplicate_slide
+
+
+# TODO: Task1: Duplicate slide
+# TODO: Task1: Iterate over data rows
+
+
 ## Get data
 team_competency = get_data(settings.INPUT_EXCEL)
 
@@ -40,28 +46,28 @@ def change_image(old_image_shape, new_image):
     # overwrite old blob info with new blob info
     image_part.blob = new_image._blob
     return old_image_shape
-    
+
 img_shape = change_image(old_image_shape=img_shape, new_image=img2)
 
 
-def set_data_to_slide(slide, team_competency, slide_num: int):
+def set_data_to_slide(slide, team_competency, row_num: int):
     """Set the data from csv row to pptx slide.
 
     :param slide: _description_
     :param team_competency: _description_
     """
-    slide.shapes[6].text = str(team_competency['Education'][slide_num])
-    slide.shapes[7].text = str(team_competency['Professional Interest'][slide_num])
-    slide.shapes[8].text = str(team_competency['Delivery Org 1'][slide_num])
-    slide.shapes[9].text = str(team_competency['Position'][slide_num])
+    slide.shapes[6].text = str(team_competency['Education'][row_num])
+    slide.shapes[7].text = str(team_competency['Professional Interest'][row_num])
+    slide.shapes[8].text = str(team_competency['Delivery Org 1'][row_num])
+    slide.shapes[9].text = str(team_competency['Position'][row_num])
     slide.shapes[9].text_frame.paragraphs[0].font.bold = True
-    slide.shapes[10].text = str(team_competency['Experience'][slide_num])
-    slide.shapes[11].text = str(team_competency['_professional_competencies'][slide_num])
-    slide.shapes[12].text = str(f"{team_competency['Name'][slide_num]} ({team_competency['Initials'][slide_num]})")
+    slide.shapes[10].text = str(team_competency['Experience'][row_num])
+    slide.shapes[11].text = str(team_competency['_professional_competencies'][row_num])
+    slide.shapes[12].text = str(f"{team_competency['Name'][row_num]} ({team_competency['Initials'][row_num]})")
     slide.shapes[12].text_frame.paragraphs[0].font.bold = True
     return slide
 
-slide5 = set_data_to_slide(slide=slide5, team_competency=team_competency, slide_num=1)
+slide5 = set_data_to_slide(slide=slide5, team_competency=team_competency, row_num=1)
 
 ts = datetime.now()
 
